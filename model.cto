@@ -1,0 +1,94 @@
+
+namespace org.acme.model 
+
+asset Proprietà identified by id_proprietà 
+{
+  o String id_proprietà 
+  o String tipo_proprietà
+  o String via 
+  o String cap 
+  o Double prezzo
+  --> Proprietario proprietario 
+} 
+
+participant Proprietario identified by id_proprietario 
+{ 
+  o String id_proprietario 
+  o String nome 
+  o String cognome 
+  o String codice_fiscale 
+  o Double saldo 
+  o Double busta_paga 
+  o Boolean mutuo 
+} 
+
+participant Banca identified by id_banca 
+{ 
+  o String id_banca 
+  o String nome_banca 
+} 
+
+participant Agenzia_Immobiliare identified by id_agenzia 
+{
+  o String id_agenzia 
+  o String nome_agenzia
+  o String[] case_possedute 
+} 
+
+transaction Acquisto
+{ 
+  o Double prezzo
+  --> Proprietario proprietario 
+  --> Proprietario nuovo_proprietario
+  --> Proprietà proprietà
+} 
+
+transaction Mutuo 
+{ 
+  o String id_mutuo 
+  o Double somma 
+  o Double rata
+  --> Proprietario contraente_mutuo 
+  --> Proprietà proprieta_da_acquistare 
+} 
+
+transaction Aggiungi_Casa 
+{ 
+  o String id_agg 
+  --> Proprietà casa_da_aggiungere
+  --> Agenzia_Immobiliare agenzia
+} 
+
+transaction Rimuovi_Casa 
+{ 
+  o String id_rm 
+  --> Proprietà casa_da_rimuovere 
+  --> Agenzia_Immobiliare agenzia 
+} 
+
+transaction Trasferisci_Casa 
+{ 
+  o String id_trasf 
+  --> Proprietà casa_da_trasferire 
+  --> Agenzia_Immobiliare agenzia_venditrice
+  --> Agenzia_Immobiliare agenzia_acquirente 
+} 
+
+transaction Acquisto_con_Agenzia 
+{ 
+  o String id_acquisto 
+  --> Agenzia_Immobiliare agenzia
+  --> Proprietario nuovo_proprietario 
+  --> Proprietà proprietà_da_acquistare 
+} 
+
+transaction Vendi_ad_Agenzia 
+{ 
+  o String id_vendita 
+  o Double prezzo 
+  --> Agenzia_Immobiliare agenzia 
+  --> Proprietario proprietario 
+  --> Proprietario nuovo_proprietario
+  --> Proprietà proprietà_da_vendere 
+} 
+
